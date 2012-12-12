@@ -1,10 +1,11 @@
 module Stamp
   module Emitters
-    class LookupEmitter
+    class Lookup
       attr_reader :field
 
-      # @param [field] the field to be formatted (e.g.: mon, year)
-      # @param [lookup] an array or proc with the string values to be formatted (e.g.: Date::DAYNAMES)
+      # @param [field] the field to be formatted (e.g. +:month+, +:year+)
+      # @param [lookup] an array of the string values to be formatted (e.g. +Date::DAYNAMES+)
+      #                 or a +call+able that returns the formatted value
       def initialize(field, lookup=nil)
         @field = field
         @lookup = lookup
@@ -13,7 +14,6 @@ module Stamp
       def format(target)
         lookup(target.send(field))
       end
-      alias :call :format
 
       def lookup(value)
         if @lookup.respond_to?(:call)

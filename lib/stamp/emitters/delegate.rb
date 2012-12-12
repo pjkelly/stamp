@@ -1,15 +1,18 @@
 module Stamp
   module Emitters
-    class NumericEmitter
+    class Delegate
+      include Modifiable
+
       attr_reader :field
 
       # @param [field] the field to be formatted (e.g. +:month+, +:year+)
-      def initialize(field)
+      def initialize(field, &block)
         @field = field
+        @modifier = block
       end
 
       def format(target)
-        target.send(field).to_s
+        modify(target.send(field))
       end
     end
   end
