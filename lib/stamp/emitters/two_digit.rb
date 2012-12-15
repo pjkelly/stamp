@@ -15,7 +15,7 @@ module Stamp
 
       def format(target)
         value = modify(target.send(field))
-        '%2.2d' % value
+        value < 10 ? "0#{value}" : value
       end
     end
   end
